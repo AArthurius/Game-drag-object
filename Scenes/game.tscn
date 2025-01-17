@@ -1,0 +1,113 @@
+[gd_scene load_steps=9 format=3 uid="uid://u52nltxs37sn"]
+
+[ext_resource type="PackedScene" uid="uid://mc57e4sar0rt" path="res://Scenes/1911.tscn" id="1_ice6e"]
+[ext_resource type="Script" path="res://Scenes/game.gd" id="1_jhr7h"]
+[ext_resource type="PackedScene" uid="uid://ckkho01gruak3" path="res://Scenes/player.tscn" id="1_rmoua"]
+[ext_resource type="Script" path="res://Scenes/player.gd" id="2_8w283"]
+[ext_resource type="Texture2D" uid="uid://1k6lypux84ej" path="res://flecha.png" id="5_3s4ix"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_u8077"]
+rough = true
+bounce = 0.3
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xk03k"]
+size = Vector2(576, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vhuni"]
+size = Vector2(576, 20)
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_jhr7h")
+
+[node name="Node2D" type="Node2D" parent="."]
+visible = false
+
+[node name="Flecha" type="Sprite2D" parent="Node2D"]
+position = Vector2(16, 0)
+texture = ExtResource("5_3s4ix")
+
+[node name="Player" parent="." groups=["pickable"] instance=ExtResource("1_rmoua")]
+input_pickable = true
+physics_material_override = SubResource("PhysicsMaterial_u8077")
+script = ExtResource("2_8w283")
+
+[node name="CollisionShape2D3" parent="Player" instance=ExtResource("1_ice6e")]
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
+remote_path = NodePath("../../Node2D")
+update_rotation = false
+update_scale = false
+
+[node name="Marker2D" type="Marker2D" parent="Player"]
+visible = false
+position = Vector2(31, 0)
+
+[node name="ColorRect" type="ColorRect" parent="Player/Marker2D"]
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+color = Color(0.688369, 0, 0.127463, 1)
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="."]
+position = Vector2(134, -16)
+rotation = 1.5708
+
+[node name="ColorRect2" type="ColorRect" parent="StaticBody2D5"]
+offset_left = -346.0
+offset_top = -154.0
+offset_right = 230.0
+offset_bottom = -134.0
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D5"]
+z_index = 6
+position = Vector2(-58, -144)
+shape = SubResource("RectangleShape2D_xk03k")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(58, -8)
+
+[node name="ColorRect2" type="ColorRect" parent="StaticBody2D2"]
+offset_left = -346.0
+offset_top = -154.0
+offset_right = 230.0
+offset_bottom = -134.0
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D2"]
+z_index = 6
+position = Vector2(-58, -144)
+shape = SubResource("RectangleShape2D_xk03k")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="."]
+position = Vector2(-422, 79)
+rotation = 1.5708
+
+[node name="ColorRect2" type="ColorRect" parent="StaticBody2D4"]
+offset_left = -346.0
+offset_top = -154.0
+offset_right = 230.0
+offset_bottom = -134.0
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D4"]
+z_index = 6
+position = Vector2(-58, -144)
+shape = SubResource("RectangleShape2D_xk03k")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2(58, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2(-58, 160)
+shape = SubResource("RectangleShape2D_vhuni")
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D3"]
+z_index = -9
+offset_left = -346.0
+offset_top = 150.0
+offset_right = 230.0
+offset_bottom = 170.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+
+[connection signal="clicked" from="Player" to="." method="_on_player_clicked"]
